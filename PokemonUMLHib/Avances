@@ -1,0 +1,132 @@
+Avances
+
+
+	menu	Consultar
+1. Listado pokemon									-->	OK
+2. Listado pokemon con dos tipos diferentes			-->	OK
+3. Listado tipos									-->	OK
+4. Listado movimientos								-->	OK
+5. Movimiento más potente							-->	OK
+6. Listado estadísticas base						-->	OK
+
+
+
+	menu 	Insertar
+1. Insertar pokemon									-->	OK
+2. Insertar movimiento								-->	OK
+3. Insertar tipo									-->	OK
+4. Insertar estadísticas de un Pokémon				-->	OK
+
+
+
+	menu	Modificar
+1. Modificar pokemon								-->	OK
+2. Modificar movimiento								-->	OK
+3. Modificar tipo									-->	OK
+4. Modificar estadísticas de un Pokémon				-->	OK
+
+
+
+	menu	Borrar
+1. Eliminar pokemon									-->	OK
+2. Eliminar movimiento								-->	OK
+3. Eliminar tipo									-->	OK
+4. Eliminar estadísticas de un Pokémon				-->	OK
+
+
+-----------
+
+
+1. Buscar pokemon en tabla pokemon.
+DEVUELVE:
+	int -> except	(si no lo encuentra)
+	int -> x ID	(si lo encuentra)
+
+
+2. Buscar pokemon en tabla estadisticas.
+DEVUELVE:
+	int -> except	(si existe en tabla pok y tiene estadist.)
+	int -> x ID	(si existe en tabla pok y NO tiene estadist.)
+
+
+3. Insertar estadist. en tabla estadisticas.
+NO DEVUELVE NADA
+
+
+
+-----------
+INSERTAR POKEMON
+
+1. pedimos los datos
+	num_pokedex
+	tipo
+	nombre
+	peso
+	altura
+
+2. comprobamos que no exista el pokemon en la tabla pokemon
+	si existe...
+		mostrar excepcion
+	
+	si no existe...
+		--> punto 3
+		
+3. comprobamos que el tipo existe
+	si no existe...
+		mostrar excepcion
+		
+	si existe --> devolver id_tipo
+		--> punto 4
+		
+4. insertamos datos en tabla pokemon
+
+5. insertamos datos en tabla relacion, pok_tipo
+--------
+
+
+
+--------
+INSERTAR TIPO
+
+1. pedimos los datos
+	id_tipo
+	nombre
+
+2. comprobamos que no exista el tipo en la tabla tipo
+	si existe...
+		mostrar excepcion
+	
+	si no existe...
+		--> punto 3
+		
+3. insertamos datos en tabla tipo
+
+4. insertamos datos en tabla relacion, pok_tipo
+--------
+
+
+
+
+
+
+
+--------
+Borrar POKEMON
+
+1. Borrar estadisticas
+	delete POK_ESTADISTICAS_BASE
+	where NUMERO_POKEDEX = 154;
+
+
+2. Borrar Pok_pokemon_tipo
+	delete POK_POKEMON_TIPO
+	where NUMERO_POKEDEX = 154;
+
+3. Borrar Pok_pokemon
+	delete POK_POKEMON p
+	where p.NUMERO_POKEDEX = 154;
+	
+	
+
+
+

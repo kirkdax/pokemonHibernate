@@ -181,8 +181,7 @@ public class MenuCont {
 							int velocidad = leerEntero("Introduce el valor de velocidad de " + nombrePokemon);
 
 							try {
-								session.insertarEstadisticasPokemon(nombrePokemon, ps, ataque, defensa, especial,
-										velocidad);
+								session.insertarEstadisticasPokemon(nombrePokemon, ps, ataque, defensa, especial, velocidad);
 							} catch (Exception e) {
 								System.out.println(e.getMessage());
 							}
@@ -320,8 +319,10 @@ public class MenuCont {
 
 						case 1:
 							String nombrePokemon = leerString("Introduce el nombre del pokemon a eliminar:");
+							String nombreTipo = leerString("Introduce el tipo del pokemon a eliminar:");
 							try {
 								session.eliminarPokemon(nombrePokemon);
+//								session.eliminarPokemonInma(nombrePokemon, nombreTipo);
 							} catch (Exception e) {
 								System.out.println(e.getMessage());
 							}
@@ -338,7 +339,7 @@ public class MenuCont {
 							break;
 
 						case 3:
-							String nombreTipo = leerString("Introduce el nombre del tipo a eliminar:");
+							nombreTipo = leerString("Introduce el nombre del tipo a eliminar:");
 							try {
 								session.eliminarTipo(nombreTipo);
 							} catch (Exception e) {

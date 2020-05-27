@@ -9,6 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+/*
+	Clase Tipo:
+		•	Además de los atributos que tiene, debe tenerun campo de pok_pokemon_tipo que será una lista de este tipo y una relacion ONetoMany.
+		•	El constructor debe crear la lista a vacia.
+		•	Creo un método que sea AddPokemon, recibe como parámetro un pok_pokemon_tipo y lo añade a la lista de pok_pokemon_tipo.
+		•	Creo un método que sea DelPokemon, recibe como parámetro un pok_pokemon_tipo y lo borra de la lista de pok_pokemon_tipo.
+		•	el ToString de tipo debe mostrar los nombres de los pokemon que tiene.
+
+ */
+
 @Entity
 public class Pok_tipo implements Serializable {
 
@@ -81,7 +91,8 @@ public class Pok_tipo implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Pok_tipo [id_tipo=" + id_tipo + ", nombre=" + nombre + "]";
+//		return "Pok_tipo [id_tipo=" + id_tipo + ", nombre=" + nombre + "]" + getPokemon();
+		return id_tipo + "\t" + nombre + " || --> " + getPokemon();
 	}
 	
 	
@@ -102,8 +113,25 @@ public class Pok_tipo implements Serializable {
 	}
 	
 	
-	public void addPokemon(Pok_pokemon newPokemon) {
-		
+	public void addPokemon(Pok_pokemon_tipo pokTipo) {
+		listaPokemon.add(pokTipo);
 	}
 	
+	public void delPokemon(Pok_pokemon_tipo pokTipo) {
+		listaPokemon.add(pokTipo);
+	}
+	
+	
+	// método para obtener los pokemon correspondientes a cada tipo
+	public String getPokemon() {
+		StringBuilder aux = new StringBuilder();
+		
+		for (Pok_pokemon_tipo pt : listaPokemon) {
+			aux.append(pt.getNumero_pokedex().getNombre() + " ");
+		}
+			
+		return aux.toString();
+	}
+	
+		
 }

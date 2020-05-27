@@ -87,29 +87,29 @@ public class Controller {
 	}
 	
 	
-	public void crearEstadisticasBase(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
-
-		// variable que obtiene el ID del pokemon, desde el método buscarPokemonEnTablaPokemon
-		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
-
-		// variable que obtiene el ID del pokemon, desde el método buscarPokemonEnTablaEstadisticas
-		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
-
-		
-		// si el pokemon existe en la tabla pokemon y también existe en la tabla estadísticas,
-		// significa que ya tiene datos y no hay que insertar nada.	--> Mostramos excepción
-		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
-			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") ya tiene estadísticas registradas\n");
-		}
-		
-		// creamos el objeto...
-		Pok_estadisticas_base peb = new Pok_estadisticas_base(idPokemonEnTablaPokemon, ps, ataque, defensa, especial, velocidad);
-		
-		// ... y lo introducimos en la base de datos
-		session.getTransaction().begin();
-		session.save(peb);
-		session.getTransaction().commit();
-	}
+//	public void crearEstadisticasBase(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
+//
+//		// variable que obtiene el ID del pokemon, desde el método buscarPokemonEnTablaPokemon
+//		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+//
+//		// variable que obtiene el ID del pokemon, desde el método buscarPokemonEnTablaEstadisticas
+//		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
+//
+//		
+//		// si el pokemon existe en la tabla pokemon y también existe en la tabla estadísticas,
+//		// significa que ya tiene datos y no hay que insertar nada.	--> Mostramos excepción
+//		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
+//			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") ya tiene estadísticas registradas\n");
+//		}
+//		
+//		// creamos el objeto...
+//		Pok_estadisticas_base peb = new Pok_estadisticas_base(idPokemonEnTablaPokemon, ps, ataque, defensa, especial, velocidad);
+//		
+//		// ... y lo introducimos en la base de datos
+//		session.getTransaction().begin();
+//		session.save(peb);
+//		session.getTransaction().commit();
+//	}
 	
 	// ------------------------------
 	
@@ -254,10 +254,27 @@ public class Controller {
 	
 	// INSERTAR ESTADISTICAS EN TABLA ESTADISTICAS
 	public void insertarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
-		buscarPokemonEnTablaPokemon(nombrePokemon);
-		buscarPokemonEnTablaEstadisticas(nombrePokemon);
-		crearEstadisticasBase(nombrePokemon, ps, ataque, defensa, especial, velocidad);	
+		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
+		
+		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
+			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") ya tiene estadísticas registradas\n");
+		}
+		
+		Pok_pokemon pokemonBuscado = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+		pokemonBuscado.asignarEstadistica(ps, ataque, defensa, especial, velocidad);
+		
+		session.getTransaction().begin();
+		session.save(pokemonBuscado);
+		session.getTransaction().commit();
 	}
+//	public void old_insertarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
+//		buscarPokemonEnTablaPokemon(nombrePokemon);
+//		buscarPokemonEnTablaEstadisticas(nombrePokemon);
+////		crearEstadisticasBase(nombrePokemon, ps, ataque, defensa, especial, velocidad);	
+//	}
+	
+	
 	
 	// INSERTAR MOVIMIENTO EN TABLA MOVIMIENTO
 	public void insertarMovimiento(String tipoMov, String nombreMov, int potenciaMov, int precisionMov, String descripcionMov, int ppMov, int prioridadMov) throws Exception {
@@ -267,15 +284,42 @@ public class Controller {
 	}
 	
 	// INSERTAR POKEMON EN TABLAS --> POKEMON y POK_TIPO (N:M)
+//	public void insertarPokemon(String nombrePok, String nombreTipo, int numPokedex, double pesoPok, double alturaPok) throws Exception {
+//
+//		buscarPokemonEnTablaPokemonInsert(nombrePok);
+//		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
+//
+//		// insertamos los datos en la tabla --> Pokemon
+//		Pok_pokemon p = new Pok_pokemon(numPokedex, nombrePok, pesoPok, alturaPok);
+//		session.getTransaction().begin();
+//		session.save(p);
+////		session.saveOrUpdate(p);
+//		session.getTransaction().commit();
+//
+//		// obtenemos el objeto tipo --> Tipo
+//		Pok_tipo tipo = session.get(Pok_tipo.class, id_tipo);
+//
+//		// insertamos los datos en la tabla relacion --> Pokemon_Tipo
+//		Pok_pokemon_tipo pt = new Pok_pokemon_tipo(tipo, p);
+//		session.getTransaction().begin();
+//		session.save(pt);
+////		session.saveOrUpdate(pt);
+//		session.getTransaction().commit();
+//	}
 	public void insertarPokemon(String nombrePok, String nombreTipo, int numPokedex, double pesoPok, double alturaPok) throws Exception {
 
+		//comprobar si el pokemon existe en la tabla pokemon
 		buscarPokemonEnTablaPokemonInsert(nombrePok);
+		
+		// obtener el id del tipo a través del nombre
 		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
 
+		
 		// insertamos los datos en la tabla --> Pokemon
 		Pok_pokemon p = new Pok_pokemon(numPokedex, nombrePok, pesoPok, alturaPok);
 		session.getTransaction().begin();
 		session.save(p);
+//		session.saveOrUpdate(p);
 		session.getTransaction().commit();
 
 		// obtenemos el objeto tipo --> Tipo
@@ -285,8 +329,34 @@ public class Controller {
 		Pok_pokemon_tipo pt = new Pok_pokemon_tipo(tipo, p);
 		session.getTransaction().begin();
 		session.save(pt);
+//		session.saveOrUpdate(pt);
 		session.getTransaction().commit();
 	}
+	/*
+		public void eliminarPokemon(String nombrePokemon, String nombreTipo) throws Exception {
+		
+		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
+
+		Pok_pokemon pok = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+		Pok_tipo tip = session.get(Pok_tipo.class, id_tipo);
+		
+		Pok_pokemon_tipo pokTipo = new Pok_pokemon_tipo(tip, pok);
+
+		pok.delTipo(pokTipo);
+		tip.delPokemon(pokTipo);
+		
+		
+		// insertamos los datos en la tabla --> Pokemon
+		session.getTransaction().begin();
+		session.save(pok);
+		session.save(tip);
+		session.getTransaction().commit();
+	}
+
+	 */
+	
+	
 	
 	// INSERTAR TIPO EN TABLA TIPO
 	public void insertarTipo(String nombreTipo) throws Exception {
@@ -313,9 +383,12 @@ public class Controller {
 		// significa que el pokemon tiene estadisticas --> Borramos las estadisticas
 		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
 			
-			Pok_estadisticas_base peb = session.get(Pok_estadisticas_base.class, idPokemonEnTablaPokemon);
+			Pok_pokemon pokemonBuscado = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+			pokemonBuscado.borrarEstadistica();
+			
 			session.getTransaction().begin();
-			session.delete(peb);
+			session.save(pokemonBuscado);
+//			session.saveOrUpdate(pokemonBuscado);
 			session.getTransaction().commit();
 			
 		// si el pokemon existe, pero no tiene estadísticas registradas...
@@ -325,8 +398,49 @@ public class Controller {
 		
 		return idPokemonEnTablaPokemon;
 	}
+//	public int old_eliminarEstadisticasPokemon(String nombrePokemon) throws Exception {
+//		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+//		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
+//				
+//		// si el pokemon existe en la tabla pokemon y también existe en la tabla estadísticas,
+//		// significa que el pokemon tiene estadisticas --> Borramos las estadisticas
+//		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
+//			
+//			Pok_estadisticas_base peb = session.get(Pok_estadisticas_base.class, idPokemonEnTablaPokemon);
+//			session.getTransaction().begin();
+//			session.delete(peb);
+//			session.getTransaction().commit();
+//			
+//		// si el pokemon existe, pero no tiene estadísticas registradas...
+//		} else {								
+//			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") no tiene estadísticas registradas\n");
+//		}
+//		
+//		return idPokemonEnTablaPokemon;
+//	}
+	
 	
 	// ELIMINAR POKEMON
+	public void eliminarPokemonInma(String nombrePokemon, String nombreTipo) throws Exception {
+		
+		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
+
+		Pok_pokemon pok = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+		Pok_tipo tip = session.get(Pok_tipo.class, id_tipo);
+		
+		Pok_pokemon_tipo pokTipo = new Pok_pokemon_tipo(tip, pok);
+
+		pok.delTipo(pokTipo);
+		tip.delPokemon(pokTipo);
+		
+		
+		// insertamos los datos en la tabla --> Pokemon
+		session.getTransaction().begin();
+		session.save(pok);
+		session.save(tip);
+		session.getTransaction().commit();
+	}
 	public void eliminarPokemon(String nombrePokemon) throws Exception {
 		
 		// Buscamos si el pokemon tiene estadísticas
@@ -432,21 +546,62 @@ public class Controller {
 		// significa que el pokemon tiene estadisticas --> Modificamos las estadisticas
 		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
 
-			Pok_estadisticas_base peb = session.get(Pok_estadisticas_base.class, idPokemonEnTablaPokemon);
-			peb.setPs(ps);
-			peb.setAtaque(ataque);
-			peb.setDefensa(defensa);
-			peb.setEspecial(especial);
-			peb.setVelocidad(velocidad);
+			// obtenemos el pokemon (variable tipo pokemon)
+			Pok_pokemon pokemonBuscado = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+			
+			//nuevo
+			pokemonBuscado.getEstadistica().setPs(ps);
+			pokemonBuscado.getEstadistica().setAtaque(ataque);
+			pokemonBuscado.getEstadistica().setDefensa(defensa);
+			pokemonBuscado.getEstadistica().setEspecial(especial);
+			pokemonBuscado.getEstadistica().setVelocidad(velocidad);
+
 			session.getTransaction().begin();
-			session.update(peb);
+			session.save(pokemonBuscado);
 			session.getTransaction().commit();
+
+			
+//			// borramos la estadística actual y guardamos los cambios
+//			pokemonBuscado.borrarEstadistica();
+//			session.getTransaction().begin();
+//			session.save(pokemonBuscado);
+//			session.getTransaction().commit();
+//
+//			// insertamos la estadística nueva y guardamos los cambios			
+//			pokemonBuscado.asignarEstadistica(ps, ataque, defensa, especial, velocidad);
+//			session.getTransaction().begin();
+//			session.save(pokemonBuscado);
+//			session.getTransaction().commit();
 
 			// si el pokemon existe, pero no tiene estadísticas registradas...
 		} else {
 			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") no tiene estadísticas registradas\n");
 		}
 	}
+//	public void old_modificarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
+//
+//		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+//		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
+//					
+//		// si el pokemon existe en la tabla pokemon y también existe en la tabla estadísticas,
+//		// significa que el pokemon tiene estadisticas --> Modificamos las estadisticas
+//		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
+//
+//			Pok_estadisticas_base peb = session.get(Pok_estadisticas_base.class, idPokemonEnTablaPokemon);
+//			peb.setPs(ps);
+//			peb.setAtaque(ataque);
+//			peb.setDefensa(defensa);
+//			peb.setEspecial(especial);
+//			peb.setVelocidad(velocidad);
+//			session.getTransaction().begin();
+//			session.update(peb);
+//			session.getTransaction().commit();
+//
+//			// si el pokemon existe, pero no tiene estadísticas registradas...
+//		} else {
+//			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") no tiene estadísticas registradas\n");
+//		}
+//	}
 	
 	
 	
@@ -565,7 +720,8 @@ public class Controller {
 		List<Pok_pokemon> lista_pokemon = consulta.getResultList();
 
 		for (Pok_pokemon pok : lista_pokemon) {
-			aux.append(pok.datosPokemon() + "\n");
+//			aux.append(pok.datosPokemon() + "\n");
+			aux.append(pok.toString() + "\n");
 		}
 
 		return aux.toString();
@@ -579,7 +735,8 @@ public class Controller {
 		List<Pok_tipo> lista_pok = consulta.getResultList();
 
 		for (Pok_tipo pok : lista_pok) {
-			aux.append(pok.datosTipo() + "\n");
+//			aux.append(pok.datosTipo() + "\n");
+			aux.append(pok.toString() + "\n");
 		}
 
 		return aux.toString();
@@ -607,7 +764,8 @@ public class Controller {
 		List<Pok_estadisticas_base> lista_peb = consulta.getResultList();
 	
 		for (Pok_estadisticas_base peb : lista_peb) {
-			aux.append(peb.datosEstadisticas() + "\n");
+//			aux.append(peb.datosEstadisticas() + "\n");
+			aux.append(peb.toString() + "\n");
 		}
 
 		return aux.toString();
@@ -676,12 +834,15 @@ public class Controller {
 		Pok_tipo tipoBuscado = session.get(Pok_tipo.class, tipo);
 		Pok_pokemon pokemonBuscado = session.get(Pok_pokemon.class, pokemon);
 
-		tipoBuscado.addPokemon(pokemonBuscado);
+		Pok_pokemon_tipo pokAux = new Pok_pokemon_tipo(tipoBuscado, pokemonBuscado);
+		
+//		pokemonBuscado.addTipo
+		
+//		tipoBuscado.addPokemon(pokemonBuscado);
 		
 //		session.get(entityType, id)
 	}
 	
-
 
 	
 	

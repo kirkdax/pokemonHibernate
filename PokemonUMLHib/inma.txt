@@ -1,0 +1,67 @@
+	Clases Estadística
+ok		•	Ademas de los atriabutos tiene un campo que es pockemon con una relacion onetoOne a pokemon.
+ok		•	Tienes que modificar el ToString de estadistica para que te permita ver el nombre del pokemon junto con el resto de los atributos
+	
+	
+	Clase Pokemon
+ok		•	Además de los atributos que tenga, tiene que tener un campo que es estadística con una relación OnetoOne a Estadísticas.
+ok		•	Crear un método que sea asingar estadística, que llame a crear estadística y que introduzca esa estadística en el atributo correspondiente. Si ya tiene una estadística debería dar exception.
+ok		•	Crear un metodo que sea borrar estadística, que asigne el campo estadística a null.
+ok		•	Crear un método que sea getEstadística,, que devuelva la estadística
+ok		•	El motodo ToString debe mostrar la estadistica del pokemon.
+	
+	
+	Clase Pokemon pero en cuanto a la relación N:M
+ok		•	Además de los atributos que tiene, debe tener un campo de pok_pokemon_tipo que será una lista de este tipo y una relación OneToMany.
+ok		•	El constructor debe crear la lista a vacia.
+ok		•	Creo un método que sea AddTipo, recibe como parámetro un pok_pokemon_tipo y lo añade a la lista de pok_pokemon_tipo.
+ok		•	Creo un método que sea DelTipo, recibe como parámetro un pok_pokemon_tipo y lo borra de la lista de pok_pokemon_tipo.
+ok		•	el ToString de pokemon debe mostrar los tipos del pokemon.
+	
+	
+	Clase Tipo:
+ok		•	Además de los atributos que tiene, debe tenerun campo de pok_pokemon_tipo que será una lista de este tipo y una relacion ONetoMany.
+ok		•	El constructor debe crear la lista a vacia.
+ok		•	Creo un método que sea AddPokemon, recibe como parámetro un pok_pokemon_tipo y lo añade a la lista de pok_pokemon_tipo.
+ok		•	Creo un método que sea DelPokemon, recibe como parámetro un pok_pokemon_tipo y lo borra de la lista de pok_pokemon_tipo.
+ok		•	el ToString de tipo debe mostrar los nombres de los pokemon que tiene.
+	
+	
+	Clase pok_pokemon_tipo
+ok		•	Los atributos que tiene son un pokemon y un tipo con relaciones ManytoOne a pokemon y tipo
+
+
+
+
+	Controlador:
+ok		•	Crear un pokemon
+		
+ok		•	AddEstadisticaPokemon (ps, atqaqu, defensa, .... NombrePokemon)
+			o	Obtener el pokemon con un query
+			o	crear estádistica, pasándole todos los datos incluido el pokemon
+			o	al pokemon añadir la estadística.
+			o	Persisitir el pokemon (update)
+			
+ok		•	DelEstadísticaPokemon(NombrePokemon).
+			o	Obtener el pokemon con un query.
+			o	llamar a delEstadiística
+			o	Persisitir el pokemon (update)
+			
+ok		•	ModificarEstadistica(ps, ataque, defensa,...... NOmbrePOkemon):
+			o	Obtener el pokemon con un query.
+			o	llamar el getEstadisitca().Update(ps,.s.s..s.s.s),......
+			o	Persistir el pokemon.
+		
+		•	Addtipo(Pokemon, tipo)
+			o	Obtener el pokemon y el tipo con un query.
+			o	Crear un objeto pok_tipo_pokemon
+			o	al pokemon con addtipo le añodo el tipo
+			o	al tipo con addpokemon le añado el pokemon
+			o	Persisto el pokemon y el tipo.
+	
+		•	Deltipo(Pokemon, tipo)
+			o	Obtener el pokemon y el tipo con un query.
+			o	Crear un objeto pok_tipo_pokemon
+			o	al pokemon con deltipo le borro el tipo
+			o	al tipo con delpokemon le borro el pokemon
+			o	Persisto el pokemon y el tipo.

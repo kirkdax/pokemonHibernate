@@ -1,7 +1,16 @@
 package com.raul.pokemon;
 
+/*
+  	Clases Estadística
+		•	Ademas de los atriabutos tiene un campo que es pockemon con una relacion onetoOne a pokemon.
+		•	Tienes que modificar el ToString de estadistica para que te permita ver el nombre del pokemon junto con el resto de los atributos
+
+ */
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Pok_estadisticas_base {
@@ -13,13 +22,15 @@ public class Pok_estadisticas_base {
 	private int defensa;
 	private int especial;
 	private int velocidad;
-	
+	@OneToOne	
+	@JoinColumn(name = "numero_pokedex")
+	private Pok_pokemon Pokemon;
 	
 	
 	public Pok_estadisticas_base() {
 		super();
 	}
-	public Pok_estadisticas_base(int numero_pokedex, int ps, int ataque, int defensa, int especial, int velocidad) {
+	public Pok_estadisticas_base(int numero_pokedex, int ps, int ataque, int defensa, int especial, int velocidad, Pok_pokemon Pokemon) {
 		super();
 		this.numero_pokedex = numero_pokedex;
 		this.ps = ps;
@@ -27,6 +38,7 @@ public class Pok_estadisticas_base {
 		this.defensa = defensa;
 		this.especial = especial;
 		this.velocidad = velocidad;
+		this.Pokemon = Pokemon;
 	}
 	
 	
@@ -95,8 +107,8 @@ public class Pok_estadisticas_base {
 	
 	@Override
 	public String toString() {
-		return "Pok_estadisticas_base [numero_pokedex=" + numero_pokedex + ", ps=" + ps + ", ataque=" + ataque
-				+ ", defensa=" + defensa + ", especial=" + especial + ", velocidad=" + velocidad + "]";
+//		return Pokemon.getNombre() + " --> [PS=" + ps + ", Ataque=" + ataque + ", Defensa=" + defensa + ", Especial=" + especial + ", Velocidad=" + velocidad + "]";
+		return "[" + Pokemon.getNumero_pokedex() + "] PS=" + ps + ", Ataque=" + ataque + ", Defensa=" + defensa + ", Especial=" + especial + ", Velocidad=" + velocidad;
 	}
 	
 	
@@ -104,5 +116,6 @@ public class Pok_estadisticas_base {
 		return numero_pokedex + "\t" + ps + "\t" + ataque + "\t" + defensa;
 	}
 	
+
 	
 }

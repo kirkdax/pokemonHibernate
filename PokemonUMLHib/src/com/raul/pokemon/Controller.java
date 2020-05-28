@@ -284,28 +284,6 @@ public class Controller {
 	}
 	
 	// INSERTAR POKEMON EN TABLAS --> POKEMON y POK_TIPO (N:M)
-//	public void insertarPokemon(String nombrePok, String nombreTipo, int numPokedex, double pesoPok, double alturaPok) throws Exception {
-//
-//		buscarPokemonEnTablaPokemonInsert(nombrePok);
-//		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
-//
-//		// insertamos los datos en la tabla --> Pokemon
-//		Pok_pokemon p = new Pok_pokemon(numPokedex, nombrePok, pesoPok, alturaPok);
-//		session.getTransaction().begin();
-//		session.save(p);
-////		session.saveOrUpdate(p);
-//		session.getTransaction().commit();
-//
-//		// obtenemos el objeto tipo --> Tipo
-//		Pok_tipo tipo = session.get(Pok_tipo.class, id_tipo);
-//
-//		// insertamos los datos en la tabla relacion --> Pokemon_Tipo
-//		Pok_pokemon_tipo pt = new Pok_pokemon_tipo(tipo, p);
-//		session.getTransaction().begin();
-//		session.save(pt);
-////		session.saveOrUpdate(pt);
-//		session.getTransaction().commit();
-//	}
 	public void insertarPokemon(String nombrePok, String nombreTipo, int numPokedex, double pesoPok, double alturaPok) throws Exception {
 
 		//comprobar si el pokemon existe en la tabla pokemon
@@ -314,27 +292,36 @@ public class Controller {
 		// obtener el id del tipo a través del nombre
 		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
 
-		
-		// insertamos los datos en la tabla --> Pokemon
+		// creamos el objeto pokemon --> Pok_Pokemon
 		Pok_pokemon p = new Pok_pokemon(numPokedex, nombrePok, pesoPok, alturaPok);
-		session.getTransaction().begin();
-		session.save(p);
-//		session.saveOrUpdate(p);
-		session.getTransaction().commit();
-
+		
 		// obtenemos el objeto tipo --> Tipo
 		Pok_tipo tipo = session.get(Pok_tipo.class, id_tipo);
+		
+		// creamos el objeto pokemon_tipo --> Pok_Pokemon_Tipo
+		Pok_pokemon_tipo pt = new Pok_pokemon_tipo(tipo, p);
+
+		// se añade pokemon_tipo (pt) a la lista del Pokémon obtenido
+		p.addTipo(pt);
+		
+		
+		// insertamos los datos en la tabla --> Pokemon
+		session.getTransaction().begin();
+		session.save(p);
+		session.getTransaction().commit();
 
 		// insertamos los datos en la tabla relacion --> Pokemon_Tipo
-		Pok_pokemon_tipo pt = new Pok_pokemon_tipo(tipo, p);
 		session.getTransaction().begin();
 		session.save(pt);
-//		session.saveOrUpdate(pt);
 		session.getTransaction().commit();
 	}
-	/*
-		public void eliminarPokemon(String nombrePokemon, String nombreTipo) throws Exception {
-		
+
+	
+	
+
+	// ELIMINAR TIPO a un Pokémon
+	public void insertarTipoToPokemon(String nombrePokemon, String nombreTipo) throws Exception {
+				
 		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
 		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
 
@@ -343,8 +330,8 @@ public class Controller {
 		
 		Pok_pokemon_tipo pokTipo = new Pok_pokemon_tipo(tip, pok);
 
-		pok.delTipo(pokTipo);
-		tip.delPokemon(pokTipo);
+		pok.addTipo(pokTipo);
+		tip.addPokemon(pokTipo);
 		
 		
 		// insertamos los datos en la tabla --> Pokemon
@@ -354,10 +341,7 @@ public class Controller {
 		session.getTransaction().commit();
 	}
 
-	 */
-	
-	
-	
+
 	// INSERTAR TIPO EN TABLA TIPO
 	public void insertarTipo(String nombreTipo) throws Exception {
 
@@ -421,26 +405,6 @@ public class Controller {
 	
 	
 	// ELIMINAR POKEMON
-	public void eliminarPokemonInma(String nombrePokemon, String nombreTipo) throws Exception {
-		
-		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
-		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
-
-		Pok_pokemon pok = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
-		Pok_tipo tip = session.get(Pok_tipo.class, id_tipo);
-		
-		Pok_pokemon_tipo pokTipo = new Pok_pokemon_tipo(tip, pok);
-
-		pok.delTipo(pokTipo);
-		tip.delPokemon(pokTipo);
-		
-		
-		// insertamos los datos en la tabla --> Pokemon
-		session.getTransaction().begin();
-		session.save(pok);
-		session.save(tip);
-		session.getTransaction().commit();
-	}
 	public void eliminarPokemon(String nombrePokemon) throws Exception {
 		
 		// Buscamos si el pokemon tiene estadísticas
@@ -528,6 +492,28 @@ public class Controller {
 		Pok_tipo t = session.get(Pok_tipo.class, idTipoEnTablaTipo);
 		session.getTransaction().begin();
 		session.delete(t);
+		session.getTransaction().commit();
+	}
+
+	// ELIMINAR TIPO de un Pokémon
+	public void eliminarTipoFromPokemon(String nombrePokemon, String nombreTipo) throws Exception {
+		
+		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
+		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
+
+		Pok_pokemon pok = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+		Pok_tipo tip = session.get(Pok_tipo.class, id_tipo);
+		
+		Pok_pokemon_tipo pokTipo = new Pok_pokemon_tipo(tip, pok);
+
+		pok.delTipo(pokTipo);
+		tip.delPokemon(pokTipo);
+		
+		
+		// insertamos los datos en la tabla --> Pokemon
+		session.getTransaction().begin();
+		session.save(pok);
+		session.save(tip);
 		session.getTransaction().commit();
 	}
 

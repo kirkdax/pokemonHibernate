@@ -36,8 +36,8 @@ public class Pok_pokemon {
 	private double peso;
 	private double altura;
 	// Este campo es para unirlo con la tabla Pokemon-Tipo (relacion N:M)
-	@OneToMany
-	@JoinColumn(name = "numero_pokedex")
+	@OneToMany(mappedBy = "numero_pokedex", cascade = CascadeType.ALL, orphanRemoval = true)
+	// @JoinColumn(name = "numero_pokedex")
 	private List<Pok_pokemon_tipo> listaPokemon;
 	// Este campo es para unirlo con la tabla Estadisticas (relacion 1:N)
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

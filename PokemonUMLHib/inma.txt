@@ -59,7 +59,7 @@ ok		•	ModificarEstadistica(ps, ataque, defensa,...... NOmbrePOkemon):
 			o	al tipo con addpokemon le añado el pokemon
 			o	Persisto el pokemon y el tipo.
 	
-		•	Deltipo(Pokemon, tipo)
+ok		•	Deltipo(Pokemon, tipo)
 			o	Obtener el pokemon y el tipo con un query.
 			o	Crear un objeto pok_tipo_pokemon
 			o	al pokemon con deltipo le borro el tipo

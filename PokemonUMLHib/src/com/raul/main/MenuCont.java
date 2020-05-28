@@ -118,6 +118,8 @@ public class MenuCont {
 						System.out.println("2. Insertar movimiento");
 						System.out.println("3. Insertar tipo");
 						System.out.println("4. Insertar estadísticas de un Pokémon");
+						System.out.println("5. Insertar tipo a un Pokémon");
+
 
 						menuInsertar = Integer.parseInt(teclado.nextLine());
 
@@ -185,8 +187,17 @@ public class MenuCont {
 							} catch (Exception e) {
 								System.out.println(e.getMessage());
 							}
-
 							break;
+						case 5:
+							nombreTipo = leerString("Introduce el TIPO para insertarlo al pokemon:");
+							nombrePokemon = leerString("Introduce el nombre del pokemon:");
+							try {
+								session.insertarTipoToPokemon(nombrePokemon, nombreTipo);
+							} catch (Exception e) {
+								System.out.println(e.getMessage());
+							}
+							break;
+
 
 						default:
 							System.out.println("Opción no válida");
@@ -308,6 +319,8 @@ public class MenuCont {
 						System.out.println("2. Eliminar movimiento");
 						System.out.println("3. Eliminar tipo");
 						System.out.println("4. Eliminar estadísticas de un Pokémon");
+						System.out.println("5. Eliminar tipo a un Pokémon");
+
 
 						menuBorrar = Integer.parseInt(teclado.nextLine());
 
@@ -319,14 +332,11 @@ public class MenuCont {
 
 						case 1:
 							String nombrePokemon = leerString("Introduce el nombre del pokemon a eliminar:");
-							String nombreTipo = leerString("Introduce el tipo del pokemon a eliminar:");
 							try {
 								session.eliminarPokemon(nombrePokemon);
-//								session.eliminarPokemonInma(nombrePokemon, nombreTipo);
 							} catch (Exception e) {
 								System.out.println(e.getMessage());
 							}
-
 							break;
 
 						case 2:
@@ -339,7 +349,7 @@ public class MenuCont {
 							break;
 
 						case 3:
-							nombreTipo = leerString("Introduce el nombre del tipo a eliminar:");
+							String nombreTipo = leerString("Introduce el nombre del tipo a eliminar:");
 							try {
 								session.eliminarTipo(nombreTipo);
 							} catch (Exception e) {
@@ -355,6 +365,16 @@ public class MenuCont {
 								System.out.println(e.getMessage());
 							}
 							break;
+						case 5:
+							nombreTipo = leerString("Introduce el TIPO del pokemon a eliminar:");
+							nombrePokemon = leerString("Introduce el nombre del pokemon:");
+							try {
+								session.eliminarTipoFromPokemon(nombrePokemon, nombreTipo);
+							} catch (Exception e) {
+								System.out.println(e.getMessage());
+							}
+							break;
+
 
 						default:
 							System.out.println("Opción no válida");

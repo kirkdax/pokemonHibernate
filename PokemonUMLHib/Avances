@@ -1,4 +1,73 @@
-Avances
+	menu	Consultar
+1. Listado pokemon									-->	
+2. Listado pokemon con dos tipos diferentes			-->	
+3. Listado tipos									-->	
+4. Listado movimientos								-->	
+5. Movimiento más potente							-->	
+6. Listado estadísticas base						-->	
+
+
+
+	menu 	Insertar
+1. Insertar pokemon									-->	OK
+2. Insertar movimiento								-->	OK
+3. Insertar tipo									-->	OK
+4. Insertar estadísticas de un Pokémon				-->	OK
+5. Insertar tipo a un Pokémon						--> OK
+
+
+
+	menu	Modificar
+1. Modificar pokemon								-->	OK
+2. Modificar movimiento								-->	?	pendiente relacionar clases
+3. Modificar tipo									-->	OK
+4. Modificar estadísticas de un Pokémon				-->	OK
+
+
+
+	menu	Borrar
+1. Eliminar pokemon									-->	OK
+2. Eliminar movimiento								-->	OK
+3. Eliminar tipo									-->	OK
+4. Eliminar estadísticas de un Pokémon				-->	OK
+
+
+-----------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------
+Avances_ old
 
 
 	menu	Consultar

@@ -252,7 +252,16 @@ public class Controller {
 
 	
 	
-	// INSERTAR ESTADISTICAS EN TABLA ESTADISTICAS
+	/**
+	 * Agregar objeto estadística al pokemon (objete contiene todas las estadísticas)
+	 * @param nombrePokemon
+	 * @param ps
+	 * @param ataque
+	 * @param defensa
+	 * @param especial
+	 * @param velocidad
+	 * @throws Exception	Pokemon ya tiene estadísticas
+	 */
 	public void insertarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
 		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
 		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
@@ -268,11 +277,6 @@ public class Controller {
 		session.save(pokemonBuscado);
 		session.getTransaction().commit();
 	}
-//	public void old_insertarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
-//		buscarPokemonEnTablaPokemon(nombrePokemon);
-//		buscarPokemonEnTablaEstadisticas(nombrePokemon);
-////		crearEstadisticasBase(nombrePokemon, ps, ataque, defensa, especial, velocidad);	
-//	}
 	
 	
 	
@@ -283,7 +287,16 @@ public class Controller {
 		crearMovimiento(tipoMov, nombreMov, potenciaMov, precisionMov, descripcionMov, ppMov, prioridadMov);
 	}
 	
-	// INSERTAR POKEMON EN TABLAS --> POKEMON y POK_TIPO (N:M)
+
+	/**
+	 * Insertar Pokémon en tabla Pokémon y Pokémon_Tipo
+	 * @param nombrePok
+	 * @param nombreTipo
+	 * @param numPokedex
+	 * @param pesoPok
+	 * @param alturaPok
+	 * @throws Exception Pokémon ya existe
+	 */
 	public void insertarPokemon(String nombrePok, String nombreTipo, int numPokedex, double pesoPok, double alturaPok) throws Exception {
 
 		//comprobar si el pokemon existe en la tabla pokemon
@@ -358,7 +371,11 @@ public class Controller {
 	}
 
 
-	// INSERTAR TIPO EN TABLA TIPO
+	/**
+	 * Insertar un nuevo Tipo
+	 * @param nombreTipo
+	 * @throws Exception Tipo ya existe
+	 */
 	public void insertarTipo(String nombreTipo) throws Exception {
 
 		// comprobamos si el tipo existe --> si existe saltará una excepción, si no existe podemos seguir...
@@ -374,7 +391,12 @@ public class Controller {
 		session.getTransaction().commit();
 	}
 
-	// ELIMINAR ESTADISTICAS DE UN POKEMON
+	/**
+	 * Eliminar las estadísticas de un Pokémon
+	 * @param nombrePokemon
+	 * @return
+	 * @throws Exception	Pokémon no tiene estadísticas
+	 */
 	public int eliminarEstadisticasPokemon(String nombrePokemon) throws Exception {
 		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
 		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
@@ -388,7 +410,6 @@ public class Controller {
 			
 			session.getTransaction().begin();
 			session.save(pokemonBuscado);
-//			session.saveOrUpdate(pokemonBuscado);
 			session.getTransaction().commit();
 			
 		// si el pokemon existe, pero no tiene estadísticas registradas...
@@ -398,26 +419,7 @@ public class Controller {
 		
 		return idPokemonEnTablaPokemon;
 	}
-//	public int old_eliminarEstadisticasPokemon(String nombrePokemon) throws Exception {
-//		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
-//		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
-//				
-//		// si el pokemon existe en la tabla pokemon y también existe en la tabla estadísticas,
-//		// significa que el pokemon tiene estadisticas --> Borramos las estadisticas
-//		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
-//			
-//			Pok_estadisticas_base peb = session.get(Pok_estadisticas_base.class, idPokemonEnTablaPokemon);
-//			session.getTransaction().begin();
-//			session.delete(peb);
-//			session.getTransaction().commit();
-//			
-//		// si el pokemon existe, pero no tiene estadísticas registradas...
-//		} else {								
-//			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") no tiene estadísticas registradas\n");
-//		}
-//		
-//		return idPokemonEnTablaPokemon;
-//	}
+
 	
 	
 	// ELIMINAR POKEMON
@@ -535,10 +537,16 @@ public class Controller {
 
 
 	
-	
-	
-	
-	// MODIFICAR ESTADISTICAS DE UN POKEMON
+	/**
+	 * Modificar las estadísticas de un Pokémon
+	 * @param nombrePokemon
+	 * @param ps
+	 * @param ataque
+	 * @param defensa
+	 * @param especial
+	 * @param velocidad
+	 * @throws Exception	Pokémon no tiene estadísticas registradas
+	 */
 	public void modificarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
 
 		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
@@ -562,48 +570,11 @@ public class Controller {
 			session.save(pokemonBuscado);
 			session.getTransaction().commit();
 
-			
-//			// borramos la estadística actual y guardamos los cambios
-//			pokemonBuscado.borrarEstadistica();
-//			session.getTransaction().begin();
-//			session.save(pokemonBuscado);
-//			session.getTransaction().commit();
-//
-//			// insertamos la estadística nueva y guardamos los cambios			
-//			pokemonBuscado.asignarEstadistica(ps, ataque, defensa, especial, velocidad);
-//			session.getTransaction().begin();
-//			session.save(pokemonBuscado);
-//			session.getTransaction().commit();
-
 			// si el pokemon existe, pero no tiene estadísticas registradas...
 		} else {
 			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") no tiene estadísticas registradas\n");
 		}
 	}
-//	public void old_modificarEstadisticasPokemon(String nombrePokemon, int ps, int ataque, int defensa, int especial, int velocidad) throws Exception {
-//
-//		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
-//		int idPokemonEnTablaEstadisticas = buscarPokemonEnTablaEstadisticas(nombrePokemon);
-//					
-//		// si el pokemon existe en la tabla pokemon y también existe en la tabla estadísticas,
-//		// significa que el pokemon tiene estadisticas --> Modificamos las estadisticas
-//		if (idPokemonEnTablaPokemon == idPokemonEnTablaEstadisticas) {
-//
-//			Pok_estadisticas_base peb = session.get(Pok_estadisticas_base.class, idPokemonEnTablaPokemon);
-//			peb.setPs(ps);
-//			peb.setAtaque(ataque);
-//			peb.setDefensa(defensa);
-//			peb.setEspecial(especial);
-//			peb.setVelocidad(velocidad);
-//			session.getTransaction().begin();
-//			session.update(peb);
-//			session.getTransaction().commit();
-//
-//			// si el pokemon existe, pero no tiene estadísticas registradas...
-//		} else {
-//			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") no tiene estadísticas registradas\n");
-//		}
-//	}
 	
 	
 	
@@ -658,7 +629,14 @@ public class Controller {
 	}
 	
 	
-	// MODIFICAR POKEMON
+	/**
+	 * Modificar Pokémon (nombre, peso y altura)
+	 * @param nombrePokemon
+	 * @param nuevoNombrePok
+	 * @param pesoPok
+	 * @param alturaPok
+	 * @throws Exception Pokémon no existe
+	 */
 	public void modificarPokemon(String nombrePokemon, String nuevoNombrePok, double pesoPok, double alturaPok) throws Exception {
 
 		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
@@ -681,7 +659,14 @@ public class Controller {
 		}
 	}
 	
-	// MODIFICAR TIPO
+
+	
+	/**
+	 * Modificar nombre del tipo
+	 * @param nombreTipo
+	 * @param nuevoNombreTipo
+	 * @throws Exception Tipo no existe
+	 */
 	public void modificarTipo(String nombreTipo, String nuevoNombreTipo) throws Exception {
 
 		int idTipoEnTablaTipo = buscarTipoEnTablaTipo(nombreTipo);

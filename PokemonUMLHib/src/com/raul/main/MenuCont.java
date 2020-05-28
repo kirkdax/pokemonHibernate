@@ -50,7 +50,7 @@ public class MenuCont {
 					System.out.println("4. Listado movimientos");
 					System.out.println("5. Movimiento más potente");
 					System.out.println("6. Listado estadísticas base");
-					System.out.println("7. Listado Pokémon|Tipos");
+//					System.out.println("7. Listado Pokémon|Tipos");
 
 
 					menuConsultas = Integer.parseInt(teclado.nextLine());
@@ -92,10 +92,10 @@ public class MenuCont {
 						System.out.println(session.mostrarListadoEstadisticas());
 						break;
 						
-					case 7:
-						int tipo = leerEntero("Introduce tipo:");
-						System.out.println(session.mostrarPokemonPorTipo(tipo));
-						break;
+//					case 7:
+//						int tipo = leerEntero("Introduce tipo:");
+//						System.out.println(session.mostrarPokemonPorTipo(tipo));
+//						break;
 
 					default:
 						System.out.println("Opción no válida");

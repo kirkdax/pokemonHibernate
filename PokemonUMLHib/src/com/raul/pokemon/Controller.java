@@ -319,20 +319,36 @@ public class Controller {
 	
 	
 
-	// ELIMINAR TIPO a un Pokémon
+	/**
+	 * Método para agregar un tipo a un Pokémon.
+	 * @param nombrePokemon	Nombre del Pokémon
+	 * @param nombreTipo	Nombre del Tipo
+	 * @throws Exception	Nº Tipos máximos: 2. No se admiten tipos repetidos
+	 */
 	public void insertarTipoToPokemon(String nombrePokemon, String nombreTipo) throws Exception {
-				
+		
+		int cantidadMaximaTipos = 2;
+		
 		int idPokemonEnTablaPokemon = buscarPokemonEnTablaPokemon(nombrePokemon);
 		int id_tipo = buscarTipoEnTablaTipo(nombreTipo);
 
 		Pok_pokemon pok = session.get(Pok_pokemon.class, idPokemonEnTablaPokemon);
+		
+		if (pok.getCantidadTipos() == cantidadMaximaTipos) {
+			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") ya tiene registrado el número máximo de tipos.\n");
+		}
+		
+		if (pok.contieneTipo(nombreTipo)) {
+			throw new Exception("\nEl Pokémon (" + nombrePokemon + ") ya tiene registrado el tipo --> " + nombreTipo + "\n");
+		}
+		
 		Pok_tipo tip = session.get(Pok_tipo.class, id_tipo);
 		
 		Pok_pokemon_tipo pokTipo = new Pok_pokemon_tipo(tip, pok);
 
 		pok.addTipo(pokTipo);
 		tip.addPokemon(pokTipo);
-		
+
 		
 		// insertamos los datos en la tabla --> Pokemon
 		session.getTransaction().begin();

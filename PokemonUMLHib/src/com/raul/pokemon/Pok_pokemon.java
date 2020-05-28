@@ -120,7 +120,7 @@ public class Pok_pokemon {
 
 	@Override
 	public String toString() {
-		return numero_pokedex + ", nombre=" + nombre + ", peso=" + peso + ", altura=" + altura + " | estadísticas --> " + getEstadistica() + " | tipo/s --> " + getTipo() ;
+		return numero_pokedex + ", nombre=" + nombre + ", peso=" + peso + ", altura=" + altura + " | estadísticas --> " + getEstadistica() + " | tipo/s --> " + getCantidadTipos() + "_" + getTipo() ;
 	}
 	
 	
@@ -149,7 +149,11 @@ public class Pok_pokemon {
 		listaPokemon.remove(pokTipo);
 	}
 	
-	// método para obtener tipo/s del pokemon
+	
+	/**
+	 * Método para obtener tipo/s del Pokémon.
+	 * @return
+	 */
 	public String getTipo() {
 		StringBuilder aux = new StringBuilder();
 		
@@ -159,5 +163,28 @@ public class Pok_pokemon {
 			
 		return aux.toString();
 	}
+	
+		
+	/**
+	 * Método para obtener la cantidad de tipos que tiene un Pokémon.
+	 * @return int
+	 */
+	public int getCantidadTipos() {					
+		return listaPokemon.size();
+	}
+	
+	
+	public boolean contieneTipo(String nombreTipo) {
+		boolean aux = false;
+		
+		for (Pok_pokemon_tipo pt : listaPokemon) {
+			if (pt.getId_tipo().getNombre().equalsIgnoreCase(nombreTipo)) {
+				aux = true;
+			}
+		}
+		
+		return aux;
+	}
+
 	
 }

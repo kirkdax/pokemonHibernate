@@ -425,26 +425,4 @@ public class MenuCont {
 
 }
 
-/*
- * Código eliminado
- * 
- * // consulta = session.createQuery("SELECT p " // +
- * "						FROM Pok_pokemon p" // +
- * "						WHERE NUMERO_POKEDEX IN (SELECT pt.numero_pokedex\r\n"
- * + //
- * "                         						FROM Pok_pokemon_tipo pt,\r\n"
- * + // "                              					Pok_tipo t\r\n" + //
- * "                         						WHERE pt.id_tipo = t.id_tipo\r\n"
- * + //
- * "                           					AND LOWER(t.nombre) LIKE 'fuego')\r\n"
- * + //
- * "  						AND NUMERO_POKEDEX IN (SELECT pt.numero_pokedex\r\n"
- * + //
- * "                        						FROM Pok_pokemon_tipo pt,\r\n"
- * + // "                              					Pok_tipo t\r\n" + //
- * "                         						WHERE pt.id_tipo = t.id_tipo\r\n"
- * + //
- * "                           					AND LOWER(t.nombre) LIKE 'volador')"
- * );
- * 
- */
+//	https://github.com/kirkdax/pokemonHibernate
